@@ -18,18 +18,28 @@ struct CalculatorBrain {
         }
     }
     
+    private enum Operation {
+        case constant(Double)
+        case unaryOperation((Double) -> (Double))
+    }
+    
+    private var operations: Dictionary<String, Operation> = [
+        "π": Operation.constant(Double.pi),
+        "e": Operation.constant(M_E),
+        "√": Operation.unaryOperation(sqrt)
+    ]
+    
     // MARK: - Public function
     mutating func performOperation(_ symbol: String) {
-        switch symbol {
-        case "e":
-            accumulator = M_E
-        case "π":
-            accumulator = Double.pi
-        case "√":
-            accumulator = sqrt(accumulator!)
-            
-        default:
-            break
+        if let operation = operations[symbol] {
+            switch operation {
+            case .constant(let value):
+                accumulator = value
+            case .unaryOperation(let function):
+                if accumulator != nil {
+                    accumulator = function(accumulator!)
+                }
+            }
         }
     }
     
