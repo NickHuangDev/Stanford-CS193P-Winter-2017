@@ -20,6 +20,8 @@ class ViewController: UIViewController {
             display.text = String(newValue)
         }
     }
+    
+    var calculatorBrain = CalculatorBrain()
 
     // MARK: - IBAction
     @IBAction func touchDigit(_ sender: UIButton) {
@@ -34,19 +36,16 @@ class ViewController: UIViewController {
     }
     
     @IBAction func performOperation(_ sender: UIButton) {
-        userIsInTheMiddleOfTyping = false
+        if userIsInTheMiddleOfTyping {
+            calculatorBrain.setOperand(displayValue)
+            userIsInTheMiddleOfTyping = false
+        }
+        
         if let mathematicalSymbol = sender.currentTitle {
-            switch mathematicalSymbol {
-            case "e":
-                displayValue = M_E
-            case "π":
-                displayValue = Double.pi
-            case "√":
-                displayValue = sqrt(displayValue)
-                
-            default:
-                break
-            }
+            calculatorBrain.performOperation(mathematicalSymbol)
+        }
+        if let result = calculatorBrain.result {
+            displayValue = result
         }
     }
 }
