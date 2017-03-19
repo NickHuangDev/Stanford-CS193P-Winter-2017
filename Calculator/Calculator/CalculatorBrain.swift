@@ -20,13 +20,16 @@ struct CalculatorBrain {
     
     private enum Operation {
         case constant(Double)
-        case unaryOperation((Double) -> (Double))
+        case unaryOperation((Double) -> Double)
     }
     
     private var operations: Dictionary<String, Operation> = [
         "π": Operation.constant(Double.pi),
         "e": Operation.constant(M_E),
-        "√": Operation.unaryOperation(sqrt)
+        "√": Operation.unaryOperation(sqrt),
+        "cos": Operation.unaryOperation(cos),
+        "±": Operation.unaryOperation({ -$0 })
+        
     ]
     
     // MARK: - Public function
