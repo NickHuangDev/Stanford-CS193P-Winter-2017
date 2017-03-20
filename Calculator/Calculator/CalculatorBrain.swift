@@ -8,6 +8,13 @@
 
 import Foundation
 
+func factorial(_ n: Double) -> Double {
+    if n <= 0 {
+        return 1
+    }
+    return n * factorial(n - 1)
+}
+
 struct CalculatorBrain {
     
     private var accumulator: Double?
@@ -29,8 +36,23 @@ struct CalculatorBrain {
         "π": Operation.constant(Double.pi),
         "e": Operation.constant(M_E),
         "√": Operation.unaryOperation(sqrt),
+        "%": Operation.unaryOperation({ $0 / 100 }),
+        "x⁻¹": Operation.unaryOperation({ 1 / $0 }),
+        "x²": Operation.unaryOperation({ pow($0, 2) }),
+        "x³": Operation.unaryOperation({ pow($0, 3) }),
+        "10ˣ": Operation.unaryOperation({ pow(10, $0) }),
+        "eˣ": Operation.unaryOperation(exp),
+        "x!": Operation.unaryOperation(factorial),
+        "ln": Operation.unaryOperation(log),
+        "log10": Operation.unaryOperation(log10),
+        "sin": Operation.unaryOperation(sin),
         "cos": Operation.unaryOperation(cos),
+        "tan": Operation.unaryOperation(tan),
+        "sinh": Operation.unaryOperation(sinh),
+        "cosh": Operation.unaryOperation(cosh),
+        "tanh": Operation.unaryOperation(tanh),
         "±": Operation.unaryOperation({ -$0 }),
+        "xʸ": Operation.binaryOperation(pow),
         "×": Operation.binaryOperation({ $0 * $1 }),
         "÷": Operation.binaryOperation({ $0 / $1 }),
         "+": Operation.binaryOperation({ $0 + $1 }),
