@@ -71,6 +71,12 @@ struct CalculatorBrain {
         }
     }
     
+    var resultIsPending: Bool {
+        get {
+            return pendingBinaryOperation != nil
+        }
+    }
+    
     // MARK: - Public function
     mutating func performOperation(_ symbol: String) {
         if let operation = operations[symbol] {
