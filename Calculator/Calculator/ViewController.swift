@@ -61,13 +61,19 @@ class ViewController: UIViewController {
         }
         if let result = calculatorBrain.result {
             displayValue = result
+        } else {
+            displayValue = 0
         }
         updateDisplayDescription()
     }
     
     // MARK: - Private Method
     func updateDisplayDescription() {
-        displayDescription.text = calculatorBrain.resultIsPending ? calculatorBrain.description + "..." : calculatorBrain.description + "="
+        if calculatorBrain.description == "" {
+            displayDescription.text = calculatorBrain.description
+        } else {
+            displayDescription.text = calculatorBrain.resultIsPending ? calculatorBrain.description + "..." : calculatorBrain.description + "="
+        }
     }
     
 }
