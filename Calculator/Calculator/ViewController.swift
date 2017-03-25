@@ -29,11 +29,9 @@ class ViewController: UIViewController {
         
         // Handle "."
         if digit == "." {
-            if userIsInTheMiddleOfTyping {
-                if display.text!.contains(".") {
-                    // contain "."
-                    return
-                }
+            if userIsInTheMiddleOfTyping && display.text!.contains(".") {
+                // contain "."
+                return
             } else {
                 display.text = "0."
                 userIsInTheMiddleOfTyping = true
