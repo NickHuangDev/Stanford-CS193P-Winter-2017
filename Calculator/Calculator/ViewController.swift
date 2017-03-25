@@ -62,6 +62,7 @@ class ViewController: UIViewController {
         if let result = calculatorBrain.result {
             displayValue = result
         }
+        print(calculatorBrain.description);
     }
 }
 
