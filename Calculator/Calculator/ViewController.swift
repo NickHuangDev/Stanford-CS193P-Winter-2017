@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var displayDescription: UILabel!
+    
     var userIsInTheMiddleOfTyping = false
     
     var displayValue: Double {
@@ -60,7 +62,13 @@ class ViewController: UIViewController {
         if let result = calculatorBrain.result {
             displayValue = result
         }
-        print(calculatorBrain.description);
+        updateDisplayDescription()
     }
+    
+    // MARK: - Private Method
+    func updateDisplayDescription() {
+        displayDescription.text = calculatorBrain.resultIsPending ? calculatorBrain.description + "..." : calculatorBrain.description + "="
+    }
+    
 }
 
