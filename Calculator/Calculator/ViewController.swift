@@ -9,17 +9,72 @@
 import UIKit
 
 class ViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    @IBOutlet weak var display: UILabel!
+    @IBOutlet weak var displayDescription: UILabel!
+    
+    var userIsInTheMiddleOfTyping = false
+    
+    var displayValue: Double {
+        get {
+            return Double(display.text!)!
+        }
+        set {
+            display.text = String(newValue)
+        }
     }
+    
+    var calculatorBrain = CalculatorBrain()
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    // MARK: - IBAction
+    @IBAction func touchDigit(_ sender: UIButton) {
+        let digit = sender.currentTitle!
+        
+        // Handle "."
+        if digit == "." {
+            if userIsInTheMiddleOfTyping && display.text!.contains(".") {
+                // contain "."
+                return
+            } else {
+                display.text = "0."
+                userIsInTheMiddleOfTyping = true
+                return
+            }
+        }
+        
+        if userIsInTheMiddleOfTyping {
+            let testCurrentlyInDisplay = display.text!
+            display.text = testCurrentlyInDisplay + digit;
+        } else {
+            display.text = digit
+            userIsInTheMiddleOfTyping = true
+        }
     }
-
-
+    
+    @IBAction func performOperation(_ sender: UIButton) {
+        if userIsInTheMiddleOfTyping {
+            calculatorBrain.setOperand(displayValue)
+            userIsInTheMiddleOfTyping = false
+        }
+        
+        if let mathematicalSymbol = sender.currentTitle {
+            calculatorBrain.performOperation(mathematicalSymbol)
+        }
+        if let result = calculatorBrain.result {
+            displayValue = result
+        } else {
+            displayValue = 0
+        }
+        updateDisplayDescription()
+    }
+    
+    // MARK: - Private Method
+    func updateDisplayDescription() {
+        if calculatorBrain.description == "" {
+            displayDescription.text = calculatorBrain.description
+        } else {
+            displayDescription.text = calculatorBrain.resultIsPending ? calculatorBrain.description + "..." : calculatorBrain.description + "="
+        }
+    }
+    
 }
 
